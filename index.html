@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xem di</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Màn hình Loading ban d?u */
+        #loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0b0b0b;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .loader {
+            border: 5px solid #222;
+            border-top: 5px solid #fff;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        #loading-screen h1 {
+            color: #fff;
+            font-size: 1.8rem;
+            letter-spacing: 3px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Ph?n màn hình hù d?a (Jumpscare) */
+        #jumpscare-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+        }
+
+        #jumpscare-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: shake 0.15s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            20% { transform: translate(-10px, 10px) rotate(-3deg); }
+            40% { transform: translate(10px, -10px) rotate(3deg); }
+            60% { transform: translate(-5px, -5px) rotate(-1deg); }
+            80% { transform: translate(5px, 5px) rotate(1deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Giao di?n Loading -->
+    <div id="loading-screen">
+        <div class="loader"></div>
+        <h1>Ðang t?i n?i dung... Vui lòng d?i</h1>
+    </div>
+
+    <!-- Giao di?n hù d?a kèm âm thanh ?n -->
+    <div id="jumpscare-screen">
+        <img src="scare.jpg" alt="Scare">
+        <!-- Th? ch?a âm thanh -->
+        <audio id="scream-audio" src="scream.mp3"></audio>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            // Sau 6 giây (6000 mili-giây) s? ?n loading, bùng ?nh và phát âm thanh
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loading-screen');
+                const jumpscareScreen = document.getElementById('jumpscare-screen');
+                const screamAudio = document.getElementById('scream-audio');
+
+                loadingScreen.style.display = 'none';
+                jumpscareScreen.style.display = 'flex';
+
+                // Phát âm thanh hù d?a
+                screamAudio.play().catch(error => {
+                    console.log("Trình duy?t ch?n t? d?ng phát âm thanh:", error);
+                });
+            }, 6000); 
+        });
+    </script>
+</body>
+</html>
